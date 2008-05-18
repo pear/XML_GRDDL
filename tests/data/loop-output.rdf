@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <rdf:Description rdf:about="">
+    <dc:description>an sq1 document</dc:description>
+  </rdf:Description>
+  <rdf:Description xmlns:data-view="http://www.w3.org/2003/g/data-view#" rdf:about="" xml:lang="">
+    <data-view:namespaceTransformation xmlns="http://www.w3.org/2001/sw/grddl-wg/td/loop-ns-b" rdf:resource="sq1t.xsl"/>
+  </rdf:Description>
+</rdf:RDF>

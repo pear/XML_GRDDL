@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:admin="http://webns.net/mvcb/">
+  <rdf:Description rdf:about="">
+    <admin:generatorAgent rdf:resource="http://purl.org/NET/erdf/extract"/>
+  </rdf:Description>
+  <rdf:Description rdf:about=""/>
+  <rdf:Description rdf:about="#mci">
+    <lat xmlns="http://www.w3.org/2003/01/geo/wgs84_pos#">39.2975</lat>
+    <long xmlns="http://www.w3.org/2003/01/geo/wgs84_pos#">-94.7139</long>
+  </rdf:Description>
+  <v:VCard xmlns:v="http://www.w3.org/2006/vcard/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <v:fn>Kansas City International Airport</v:fn>
+    <v:org rdf:parseType="Resource">
+      <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Organization"/>
+      <v:organization-name>Kansas City International Airport</v:organization-name>
+    </v:org>
+  </v:VCard>
+</rdf:RDF>

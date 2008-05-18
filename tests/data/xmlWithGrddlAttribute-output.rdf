@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:p3p="http://www.w3.org/2002/01/P3Pv1" xmlns:p3pr="http://www.w3.org/2002/01/P3Pv1" xmlns:p3dr="http://www.w3.org/TR/P3P/base#" xmlns:ont="http://www.daml.org/2001/03/daml+oil#">
+  <rdf:Description rdf:about="">
+    <p3pr:expiry p3p:max-age="604800"/>
+  </rdf:Description>
+  <p3pr:Policy rdf:about="#public">
+    <p3pr:discuri rdf:resource="http://www.w3.org/Consortium/Legal/privacy-statement#Public"/>
+  </p3pr:Policy>
+</rdf:RDF>

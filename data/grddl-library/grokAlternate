@@ -1,0 +1,71 @@
+<?xml-stylesheet href="http://www.w3.org/StyleSheets/base.css" type="text/css"?>
+<?xml-stylesheet href="http://www.w3.org/2002/02/style-xsl.css" type="text/css"?>
+
+
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:rdf  ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs  ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:dataview="http://www.w3.org/2003/g/data-view#"
+  exclude-result-prefixes="html">
+
+ 
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" href="http://www.w3.org/StyleSheets/base"/>
+    <title>Extracting alternative application/rdf+xml descriptions</title>
+
+  </head>
+  <body>
+    <h1>Extracting alternative application/rdf+xml descriptions</h1>
+
+
+<p>This is a <a href="http://www.w3.org/TR/grddl">GRDDL</a> transformation that produces a list of RDF alternative descriptions from XHTML. 
+Each link (<code>link</code> or <code>a</code>) with a <code>rel</code> attribute whose value includes <code>alternate</code> or <code>meta</code> and <code>type</code> whose value is <code>application/rdf+xml</code> is used to identify alternative resources which describe the source document.
+</p>
+
+<p>In the following example, written in XHTML, the <code>link</code>
+
+element is a link by HTML conventions:</p>
+
+<pre class="example">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+ &lt;head profile="http://www.w3.org/2003/g/data-view"&gt;
+  &lt;link rel="alternate"
+    href="http://danbri.org/foaf.rdf" />
+...
+&lt;p&gt;Here's a link to my other 
+&lt;a rel="alternate" type="application/rdf+xml"
+   href="http://danbri.org/words/feed/rdf"&gt;RSS 1.0 data&lt;/a&gt;
+</pre>
+
+<p>
+This transform is based on <a href="http://www.w3.org/2003/g/glean-profile">glean-profile.xsl</a>, which is copyright, 2005-2007, W3C.
+It is available for use under the terms of the
+<a href="http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231">W3C Software License</a>
+</p>
+
+  </body>
+</html>
+
+<xsl:template match="/">
+  <rdf:RDF>
+    <xsl:for-each select="/html:html//html:*//
+               html:* 
+               [self::html:a or self::html:link]    
+               [@href and (contains(@rel,'meta') or contains(@rel,'alternate'))
+				 and
+                 contains(@type,'application/rdf+xml')
+                ]">
+		  <rdf:Description rdf:about=''>
+			<rdfs:seeAlso rdf:resource="{@href}" />
+		  </rdf:Description>
+    </xsl:for-each>
+  </rdf:RDF>
+</xsl:template>
+
+</xsl:stylesheet>

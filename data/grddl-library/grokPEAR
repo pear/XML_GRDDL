@@ -1,0 +1,105 @@
+<?xml-stylesheet href="http://www.w3.org/StyleSheets/base.css" type="text/css"?>
+<?xml-stylesheet href="http://www.w3.org/2002/02/style-xsl.css" type="text/css"?>
+
+
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:rdf  ="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs  ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:dataview="http://www.w3.org/2003/g/data-view#"
+  xmlns:package="http://pear.php.net/dtd/package-2.0"
+  xmlns:doap="http://usefulinc.com/ns/doap#"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  exclude-result-prefixes="html">
+
+ 
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" href="http://www.w3.org/StyleSheets/base"/>
+    <title>Extracting DOAP from PEAR package.xml</title>
+
+  </head>
+  <body>
+    <h1>Extracting alternative application/rdf+xml descriptions</h1>
+
+
+<p>This is a <a href="http://www.w3.org/TR/grddl">GRDDL</a> transformation that produces <a href="http://usefulinc.com/doap/">DOAP</a> about PEAR packages</p>
+
+  </body>
+</html>
+
+<xsl:template match="/">
+  <rdf:RDF>
+    <xsl:for-each select="package:package">
+      <doap:Project rdf:about=''>
+        <dc:date><xsl:value-of select="package:date" /></dc:date>
+        <doap:programming-language>PHP</doap:programming-language>
+
+        <xsl:for-each select="package:license">
+          <doap:license rdf:resource="{@uri}"/>
+        </xsl:for-each>
+
+
+
+        <doap:description><xsl:value-of select='package:description' /></doap:description>
+        <doap:shortdesc><xsl:value-of select='package:summary' /></doap:shortdesc>
+
+
+        <xsl:for-each select='package:lead'>
+          <doap:developer>
+            <foaf:Person>
+              <foaf:name><xsl:value-of select="package:name" /></foaf:name>
+              <foaf:mbox>mailto:<xsl:value-of select="package:email" /></foaf:mbox>
+            </foaf:Person>
+          </doap:developer>
+        </xsl:for-each>
+
+        <xsl:for-each select='package:developer'>
+          <doap:developer>
+            <foaf:Person>
+              <foaf:name><xsl:value-of select="package:name" /></foaf:name>
+              <foaf:mbox>mailto:<xsl:value-of select="package:email" /></foaf:mbox>
+            </foaf:Person>
+          </doap:developer>
+        </xsl:for-each>
+
+        <xsl:for-each select='package:contributor'>
+          <doap:helper>
+            <foaf:Person>
+              <foaf:name><xsl:value-of select="package:name" /></foaf:name>
+              <foaf:mbox>mailto:<xsl:value-of select="package:email" /></foaf:mbox>
+            </foaf:Person>
+          </doap:helper>
+        </xsl:for-each>
+
+        <xsl:for-each select='package:helper'>
+          <doap:helper>
+            <foaf:Person>
+              <foaf:name><xsl:value-of select="package:name" /></foaf:name>
+              <foaf:mbox>mailto:<xsl:value-of select="package:email" /></foaf:mbox>
+            </foaf:Person>
+          </doap:helper>
+        </xsl:for-each>
+
+        <xsl:for-each select="package:changelog/package:release">
+          <doap:release>
+            <doap:Version>
+              <doap:created><xsl:value-of select="package:date" /></doap:created>
+              <doap:revision><xsl:value-of select="package:version/package:release" /></doap:revision>
+              <doap:description><xsl:value-of select="package:notes" /></doap:description>
+            </doap:Version>
+          </doap:release>
+        </xsl:for-each>
+
+      </doap:Project>
+    </xsl:for-each>
+  </rdf:RDF>
+</xsl:template>
+
+</xsl:stylesheet>

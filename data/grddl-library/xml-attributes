@@ -1,0 +1,752 @@
+<?xml-stylesheet href="http://www.w3.org/StyleSheets/base.css" type="text/css"?>
+<?xml-stylesheet href="http://www.w3.org/2002/02/style-xsl.css" type="text/css"?>
+
+<xsl:transform
+    version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xa="http://www.w3.org/2003/g/xml-attributes#"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    >
+
+<xsl:output method="xml" encoding="utf-8" indent="yes" />
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" href="http://www.w3.org/StyleSheets/base"/>
+    <title>Extracting XML attributes for RDF using GRDDL</title>
+  </head>
+
+  <body>
+    <div class='head'><a href="/"><img src="/Icons/w3c_home" alt="W3C"/></a></div>
+    <h1>Extracting XML attributes for RDF using GRDDL</h1>
+
+<p>
+This is an XSLT 1.0 module,
+intended to be 
+<a href="http://www.w3.org/TR/xslt#import">
+imported 
+</a>
+into 
+<a href="http://www.w3.org/TR/grddl">GRDDL</a> transforms, 
+in order to produce appropriate 
+
+<a href="http://www.w3.org/TR/xmlbase/#syntax">
+<code>xml:base</code>
+</a> and 
+<a href="http://www.w3.org/TR/REC-xml/#sec-lang-tag">
+<code>xml:lang</code>
+</a> attributes,
+on 
+<a href="http://www.w3.org/TR/rdf-syntax-grammar/#propertyElt">
+property elements</a> 
+and
+<a href="http://www.w3.org/TR/rdf-syntax-grammar/#nodeElement">
+node elements</a> 
+
+in 
+<a href="http://www.w3.org/TR/rdf-syntax-grammar/">RDF/XML</a>.
+</p>
+<p>
+The namespace of this module is given by:
+</p>
+<pre>
+  xmlns:xa="http://www.w3.org/2003/g/xml-attributes#"
+</pre>
+<p>
+There are three named templates, one of which should be called when 
+producing an element within the GRDDL output, which needs to have 
+<code>xml:lang</code>, 
+<code>xml:base</code> attributes or both added according to generally 
+useful rules.
+
+</p>
+<p>
+The three templates are:
+</p>
+<dl>
+<dt><code>name="xa:lang"</code></dt> <dd>may produce an <code>xml:lang</code> attribute.</dd>
+<dt><code>name="xa:base"</code></dt> <dd>may produce an <code>xml:base</code> attribute.</dd>
+
+<dt><code>name="xa:base-and-lang"</code></dt> <dd>may produce either or both attributes.</dd>
+</dl>
+<p>
+When there is no information, the templates do not produce attributes.
+</p>
+<p>
+Calling any of these templates, except when it is legal to use 
+<code>&lt;xsl:attribute></code> elements, is an error.
+</p>
+<h2>Basic Usage</h2>
+<p>
+
+Each template has a 
+<a href="http://www.w3.org/TR/xslt#section-Passing-Parameters-to-Templates">
+parameter</a> 
+named <code>"node"</code>.
+This can be omitted and defaults to the 
+<a href="http://www.w3.org/TR/xslt#function-current">
+<code>current()</code></a> node.
+</p>
+<p>
+In the simplest cases, these templates are called
+immediately after generating an element, which may have 
+property attributes, textual content, or an
+<code>rdf:about</code> or <code>rdf:resource</code>
+
+attributes, that should be qualified with language and
+base information copied from the input document.
+As long as no parent or other ancestor element 
+in the output has an <code>xml:lang</code> or <code>xml:base</code> attribute,
+then the named templates produce appropriate values,
+computed from some specific node of the input.
+</p>
+<p>Some examples include:
+<a href="inline-rdf">inline-rdf</a>,
+<a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/aa/extract-xlink1">
+extract-xlink1</a>,
+and
+<a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/aa/extract-xlink2">
+extract-xlink2</a>.
+
+</p>
+<h2>Advanced Usage</h2>
+<h3>Advanced <code>xml:lang</code></h3>
+<p>
+In the case when a parent or other ancestor element
+in the output, has (possibly) had 
+<code>xml:lang</code> or <code>xml:base</code> values
+defined, then greater care is needed.
+</p>
+<p>
+In the <code>xml:lang</code> case, the template does not normally produce
+
+<code>xml:lang=""</code> attributes, so that if
+a parent has being given an <code>xml:lang</code>, since the
+child node, may have no language, the correct use, is to first
+set <code>xml:lang</code> to <code>""</code>, and
+then to call the named template,
+following the documentation for
+<a href=
+"http://www.w3.org/TR/xslt#creating-attributes">
+<code>xsl:attribute</code>
+</a>,
+this will overwrite the value <code>""</code>.
+</p>
+
+<p>
+As an example:
+</p>
+<pre>
+&lt;xsl:template>
+  &lt;rdf:Description rdf:about="">
+  &lt;!-- copy attributes -->
+    &lt;xsl:copy-of select="@*" />
+  &lt;!-- redefine xml:lang, and xml:base -->
+    &lt;xsl:call-template name="xa:base-and-lang"/>
+      &lt;!-- inherited xml:lang may be inappropriate -->
+      &lt;rdfs:comment xml:lang="">
+         &lt;!-- compute appropriate xml:lang -->
+         &lt;xsl:call-template name="xa:lang"/>
+         &lt;xsl:value-of select="item/comment"/>
+      &lt;/rdfs:comment>
+  &lt;!-- copy other content -->
+    &lt;xsl:copy-of select="node()"/>
+
+</pre>
+<h3>Advanced <code>xml:base</code></h3>
+<p>
+For <code>xml:base</code> the situation is decidedly more complicated.
+This module is an XSLT1 module, and doesn't have the possibility of
+using the XPATH2 
+<a href="http://www.w3.org/TR/xquery-operators/#func-base-uri">base-uri()</a> function.
+Also, it doesn't use
+the 
+<a href="http://www.w3.org/2000/07/uri43/uri.xsl">W3C 
+XSLT URI</a> library.
+If either of these are available for a specific transform, they
+may provide better solutions.
+</p>
+<p>
+
+As is, given a relative reference, this module is unable to resolve
+it to provide an absolute reference.
+This limits the applicability of this module, and
+in some cases, it simply gives up, with an 
+<code>xsl:message terminate="yes"</code>
+</p>
+<p>
+However, in many cases, a relative reference can simply be copied
+across to the output, and the RDF/XML parser will correctly resolve nested
+<code>xml:base</code>s.
+</p>
+<p>
+In order to do this correctly, and to avoid copying
+a relative <code>xml:base</code> to a context in the output
+which has an inappropriate <code>xml:base</code> base on
+a parent or ancestor node, the transform author has to give
+greater guidance to this module.
+
+</p>
+<p>
+The supported cases are when the parent or ancestor node
+has had its <code>xml:base</code> set using this module.
+</p>
+<p>
+In this case, the node that was used to compute that 
+<code>xml:base</code> (either as an explicit <code>"node"</code>
+parameter, or the then <a href="http://www.w3.org/TR/xslt#function-current">
+<code>current()</code></a> node), 
+must
+be passed as a second parameter when computing
+the <code>xml:base</code> on the child node.
+
+</p>
+
+<p>
+The <code>xa:base</code> and <code>xa:base-and-lang</code> 
+have an additional optional 
+<a href="http://www.w3.org/TR/xslt#section-Passing-Parameters-to-Templates">
+parameter</a>:
+</p>
+<dl>
+<dt>
+ <code>"node-used-by-ancestor"</code></dt>
+
+<dd>
+If present, this must be 
+the <code>"node"</code> parameter passed to the
+<code>xa:base</code> or <code>xa:base-and-lang</code>
+template used on the closest ancestor, in the output, 
+to the current output element that
+potentially
+defines an <code>xml:base</code>.
+This node, and its ancestors are ignored, when computing the correct
+value of <code>xml:base</code>.
+In the case when there is no parent element in the output which
+has already had an <code>xml:base</code> attribute generated,
+then the <code>"node-used-by-ancestor"</code> parameter is omitted. 
+In some cases, failure to use this parameter
+may result in the same relative path being output in two
+nested places, which gives the incorrect result.
+
+</dd>
+</dl>
+
+<p>
+As an example, see
+the transform, <a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix2rdfxml">
+trix2rdfxml</a>.
+This is intended to apply to input such as:
+ <a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix3">
+trix3</a>,
+ <a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix4">
+trix4</a>,
+<a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix5">
+trix5</a>,
+
+<a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix6">
+trix6</a> or
+<a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix7">
+trix7</a>.
+In this:
+</p>
+<dl>
+<dt> the first rule</dt>
+<dd> copies the 
+<code>xml:base</code> attribute from 
+a <code>graph</code> element;</dd>
+
+<dt> the second rule</dt>
+<dd>
+copies the <code>xml:base</code> attribute from the first child
+of the <code>triple</code> element, passing the <code>graph</code>
+element node in as the <code>node-used-by-ancestor</code>.</dd>
+
+<dt> the third rule</dt>
+<dd>
+copies the <code>xml:base</code> attribute from the third child
+of the <code>triple</code> element, passing the first child 
+in as the <code>node-used-by-ancestor</code>.</dd>
+</dl>
+<p>
+<a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix7">
+
+trix7</a> is example input that the library module finds too difficult,
+because it does not resolve relative references.
+</p>
+<p>
+Examination of the output will show that some of the <code>xml:base</code>
+attributes generated are unnecessary. A more careful, but more complex, transform,
+would avoid generating so many redundant values, in order to reduce the 
+potential for input that has too many relative references, such as
+<a href="http://www.w3.org/2001/sw/grddl-wg/td/lib-tests/trix7">
+trix7</a>.
+</p>
+
+
+
+<h2>Description of Implementation</h2>
+
+<p>
+The rules used by the templates are as follows:
+</p>
+<p>
+First, for non-XHTML documents:
+</p>
+<dl>
+<dt><code>
+xml:lang</code></dt>
+<dd> is produced according to the inheritance rules, applied to 
+<code>$node</code>, as given in the 
+<a href="http://www.w3.org/TR/REC-xml/#sec-lang-tag">XML Recommendation</a>.</dd>
+
+<dt><code>xml:base</code></dt>
+<dd> is produced according to the inheritance rules, 
+applied to 
+<code>$node</code>, as given in the 
+<a href="http://www.w3.org/TR/xmlbase/#syntax">XML Base Recommendation</a>. 
+However, an <code>xml:base</code> on 
+the root element is ignored, since this will be handled by the GRDDL 
+aware agent. In the advanced case, the 
+correct set of ancestors to ignore, is computed using
+the <a href="#node-used-by-ancestor"><code>"node-used-by-ancestor"</code></a>.
+</dd>
+</dl>
+
+<p>
+
+Second, for XHTML documents, in the default processing mode:
+</p>
+<dl>
+<dt><code>
+xml:lang</code></dt>
+<dd>is produced according to the inheritance rules, applied to 
+<code>"node"</code>, as given in the 
+<a href="http://www.w3.org/TR/2002/REC-xhtml1-20020801/">XHTML Recommendation</a>: 
+in particular, if 
+<a href="http://www.w3.org/TR/2002/REC-xhtml1-20020801/#C_7">both</a> 
+<code>xml:lang</code> and <code>lang</code> attributes are present in the ancestors of <code>"node"</code>, 
+
+<code>xml:lang</code> is used. If only one is present, then that is used.
+</dd>
+<dt><code>
+xml:base</code></dt>
+<dd> is not produced at all, and any <code>xml:base</code> attributes are 
+(silently) ignored. 
+<code>xml:base</code> is not supported in XHTML (see the XHTML 
+Recommendation, in particular the DTD). An HTML Base element, if any, 
+will be handled by the GRDDL aware agent.
+<a name="non-default-node"> 
+Note</a>, that some derived DTDs, for example, those of
+
+<a href="http://www.w3.org/TR/2002/WD-XHTMLplusMathMLplusSVG-20020809/">
+An
+XHTML +
+MathML +
+SVG Profile
+</a> and the
+<a href="http://www.w3.org/TR/CDR/">
+Compound Document by Reference Framework
+</a>,
+<em>do</em> support <code>xml:base</code>, and the default processing
+mode is not appropriate for these cases.
+Also, if the input of the transform is not intended 
+to necessarily be DTD valid (for example, in the transform
+<a href="inline-rdf">inline-rdf</a>), then the default
+processing mode may not be appropriate.
+</dd>
+</dl>
+
+<p>
+Since, in some instances, as indicated 
+<a href="#non-default-node">above</a>, 
+a transform may wish to honour <code>xml:base</code>
+attributes within an XHTML document, 
+it is possible to change the processing mode by 
+setting the variable <code>xa:use-xml-base-in-xhtml</code> to true, e.g.
+</p>
+<pre>&lt;xsl:variable name="xa:use-xml-base-in-xhtml"
+               select="true()" />
+</pre>
+<p>
+In this case, the processing of <code>xml:base</code> in XHTML documents then follows 
+this rule:
+
+</p>
+
+<dl>
+<dt><code>xml:base</code></dt><dd> is produced according to the inheritance rules, 
+applied to 
+<code>$node</code>, as given in the XML Base Recommendation, this includes an 
+<code>xml:base</code> on the root element which may not be handled by the GRDDL aware 
+agent.
+</dd>
+</dl>
+<p>This is part of the <a href="http://www.w3.org/2001/sw/grddl-wg/library">standard library</a> of GRDDL transforms.</p>
+
+<p>
+This transform is copyright, 2007, W3C.
+It is available for use under the terms of the
+<a href="http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231">W3C Software License</a>
+</p>
+<!--
+  <address>
+Dan Connolly, Dec 2004 <br />
+</address>
+-->
+<p>
+<small>$Id$</small>
+</p>
+  </body>
+</html>
+
+<xsl:variable name="xa:use-xml-base-in-xhtml"
+              select="false()" />
+              
+              
+
+<!--
+Normally we regard the root node as the ancestor
+to which all base processing starts, giving a base URI
+which is implemented by the GRDDL aware agent.
+
+In the case where we are respecting xml:base within 
+an HTML doc, then this is not the case. That base node has
+not been processed by the GRDDL aware agent, and we do 
+not have a default ancestor.
+-->
+<xsl:variable name="xa:default-node-used-by-ancestor"
+              select="/*[not($xa:use-xml-base-in-xhtml
+                          and /xhtml:html)]" />
+
+<xsl:template name="xa:base-and-lang" >
+  <xsl:param name ="node" select="current()" />
+  <xsl:param name ="node-used-by-ancestor" 
+           select="$xa:default-node-used-by-ancestor" 
+         />
+  <xsl:call-template name="xa:base">
+    <xsl:with-param name="node" select="$node" />
+    <xsl:with-param name="node-used-by-ancestor" 
+         select="$node-used-by-ancestor" />
+  </xsl:call-template>
+  <xsl:call-template name="xa:lang">
+
+    <xsl:with-param name="node" select="$node" />
+  </xsl:call-template>
+</xsl:template>
+  
+
+<xsl:template name="xa:lang" >
+  <xsl:param name ="node" select="current()" />
+  <!-- redefine xml:lang -->
+  <xsl:if test="$node/ancestor-or-self::*[@xml:lang] or not(/xhtml:html)">
+  <xsl:if test="$node/ancestor-or-self::*[@xml:lang]">
+    <xsl:attribute name="xml:lang">
+
+      <xsl:value-of select="$node/ancestor-or-self::*[@xml:lang][1]/@xml:lang" />
+    </xsl:attribute>
+  </xsl:if>
+  </xsl:if>
+  <xsl:if test="/xhtml:html and not($node/ancestor-or-self::*[@xml:lang])">
+  <xsl:if test="$node/ancestor-or-self::xhtml:*[@lang][1]/@lang">
+    <xsl:attribute name="xml:lang">
+      <xsl:value-of select="$node/ancestor-or-self::xhtml:*[@lang][1]/@lang" />
+    </xsl:attribute>
+
+  </xsl:if>
+  </xsl:if>
+</xsl:template>
+  
+<xsl:template name="xa:base" >
+  <xsl:param name ="node" select="current()" />
+  <xsl:param name ="node-used-by-ancestor" 
+           select="$xa:default-node-used-by-ancestor" 
+         />
+  <!-- should we redefine xml:base? --> 
+  <xsl:if test="not(/xhtml:html) or $xa:use-xml-base-in-xhtml">
+    <xsl:if test="$node/ancestor-or-self::*[/xhtml:html or position()!=last()][@xml:base]
+                  or $node-used-by-ancestor/ancestor-or-self::*[/xhtml:html or position()!=last()][@xml:base]">
+        <xsl:call-template name="xa:base-sub-template">
+
+           <xsl:with-param name="node" select="$node"/>
+           <xsl:with-param name="node-used-by-ancestor" 
+                select="$node-used-by-ancestor" />
+        </xsl:call-template>
+   </xsl:if>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template name="xa:base-sub-template">
+ <xsl:param name="node"/>
+ <xsl:param name ="node-used-by-ancestor" />
+
+ 
+ <xsl:variable name="base-node"
+     select="$node/ancestor-or-self::*[@xml:base][1]" />
+ <xsl:variable name="base"
+     select="string($base-node/@xml:base)" />
+ <xsl:variable name="above-base-node"
+     select="$node/ancestor-or-self::*[@xml:base][2]" />
+ <xsl:variable name="above-base"
+     select="string($above-base-node/@xml:base)" />
+ <xsl:variable name="ancestor-base-node"
+     select="$node-used-by-ancestor/ancestor-or-self::*[@xml:base][1]" />
+ <xsl:variable name="ancestor-base"
+     select="string($ancestor-base-node/@xml:base)" />
+ <xsl:variable name="above-ancestor-base-node"
+     select="$node-used-by-ancestor/ancestor-or-self::*[@xml:base][2]" />
+ <xsl:variable name="above-ancestor-base"
+     select="string($above-ancestor-base-node/@xml:base)" />
+
+<!--
+  At this point the following hold:
+  1) The base we wish to set is
+      $base    -   This is definitely a string, possibly empty.
+  2) The context we are sitting in is
+      $ancestor-base  - This may be void, i.e. the empty string.
+  3) The node on which $base is taken from is
+      $base-node
+  4) The node on which $ancestor-base is taken from is
+      $ancestor-base-node
+          (which may be the empty set of nodes, or one node)
+  5) $base makes sense if either:
+       a) it is absolute
+       b) in the context of $above-base-node
+          (which may be the empty set of nodes, or one node)
+  =====
+  Thus, if any of the following hold, we are done, without
+  adding an xml:base
+  a) $base-node == $ancestor-base-node
+  b) $base == $ancestor-base
+      and $above-base-node == $above-ancestor-base-node
+  c) $base == $ancestor-base and both are absolute
+     [we ignore this case, it is also correctly treated
+      below - case (f)]
+  Also, if any of the following hold we are done, 
+  by adding an xml:base of $base.
+  d) $above-base-node == $ancestor-base-node
+  e) $above-base == $ancestor-base and both are absolute
+  f) $base is absolute
+  Otherwise, we are hosed, and so we barf.
+-->
+
+<!--
+  The following three variables come from node equality tests.
+  We check that two nodes have the same number of ancestors,
+  and the same number of preceding nodes - this ensures that
+  element nodes are the same.
+  We use ancestor-or-self axis to ensure that the empty node sequence
+  compares as unequal to the root node.
+-->
+  
+  <xsl:variable name="base-node-and-ancestor-base-node-are-the-same"
+     select="generate-id($base-node) = 
+               generate-id($ancestor-base-node)" />
+  <xsl:variable name="above-base-node-and-ancestor-base-node-are-the-same"
+     select="generate-id($above-base-node) = 
+               generate-id($ancestor-base-node)" />
+  <xsl:variable name="above-base-node-and-above-ancestor-base-node-are-the-same"
+     select="generate-id($above-base-node) = 
+               generate-id($above-ancestor-base-node)" />
+     
+  <xsl:variable name="ok-already"
+     select="$base-node-and-ancestor-base-node-are-the-same or
+              ( $base = $ancestor-base 
+                  and $above-base-node-and-above-ancestor-base-node-are-the-same )" />
+     
+  <xsl:if test="not($ok-already)">
+     <xsl:attribute name="xml:base">
+        <xsl:value-of select="$base" />
+
+     </xsl:attribute>
+ <!-- now check that that was OK, and terminate if it wasn't 
+ 
+ From above:
+  d) $above-base-node == $ancestor-base-node
+  e) $above-base == $ancestor-base and both are absolute
+  f) $base is absolute
+ -->
+     <xsl:if test="not($above-base-node-and-ancestor-base-node-are-the-same)">
+        <xsl:if test="$above-base = $ancestor-base">
+          <!-- check for e or f -->
+           <xsl:call-template name="xa:barf-if-both-relative">
+             <xsl:with-param name="uri1" select="$base" />
+             <xsl:with-param name="uri2" select="$above-base" />
+           </xsl:call-template>
+
+        </xsl:if>
+        <xsl:if test="not($above-base = $ancestor-base)">
+          <!-- check for f -->
+             <xsl:call-template name="xa:barf-if-relative">
+                <xsl:with-param name="uri" select="$base" />
+             </xsl:call-template>
+        </xsl:if>
+      <!-- Finally, we don't support an HTML family doc,
+          with an html base and an xml:base on the root, 
+          if they are both relative, and the xml:base
+          actually has anything in scope. -->
+        <xsl:if test="/xhtml:html/xhtml:head/xhtml:base[@href]">
+
+           <xsl:call-template name="xa:xhtml-special-check">
+                <xsl:with-param name="base-node" select="$base-node" />
+           </xsl:call-template>
+        </xsl:if>
+     </xsl:if>
+  </xsl:if>    
+</xsl:template>
+
+
+<xsl:template name="xa:xhtml-special-check">
+    <xsl:param name="base-node" />
+
+    <xsl:variable name="base-node-and-root-node-are-the-same"
+     select="count($base-node/ancestor-or-self::*) = 
+               count(/xhtml:html/ancestor-or-self::*)
+            and
+            count($base-node/preceding::*) = 
+               count(/xhtml:html/preceding::*)" />
+    <xsl:if test="$base-node-and-root-node-are-the-same">
+      <xsl:call-template name="xa:barf-if-both-relative">
+        <xsl:with-param name="uri1" select="$base-node/@xml:base" />
+        <xsl:with-param name="uri2" select="/xhtml:html/xhtml:head/xhtml:base/@href" />
+      </xsl:call-template>
+    </xsl:if>
+</xsl:template>
+
+<xsl:template name="xa:barf-if-relative">
+
+    <xsl:param name="uri" />
+    <xsl:call-template
+       name="xa:if-relative-then-call-continuation" >
+       <xsl:with-param name="uri" select="$uri" />
+       <xsl:with-param name="continuation" select="'barf'" />
+       <xsl:with-param name="continuation-param-value" select="$uri" />
+    </xsl:call-template>
+</xsl:template>
+
+
+<xsl:template name="xa:barf">
+  <xsl:param name="uri" />
+
+  <xsl:message terminate = "yes" >
+<xsl:text>http://www.w3.org/2003/g/xml-attributes
+Nested relative xml:base attributes are not supported.
+The relative base URI "</xsl:text>
+   <xsl:value-of select="$uri"/>
+   <xsl:text>" presented problems, maybe replace with an absolute URI.</xsl:text>
+  </xsl:message>
+</xsl:template>
+
+<xsl:template name="xa:barf-if-both-relative">
+    <xsl:param name="uri1" />
+    <xsl:param name="uri2" />
+
+    <xsl:call-template
+       name="xa:if-relative-then-call-continuation" >
+       <xsl:with-param name="uri" select="$uri2" />
+       <xsl:with-param name="continuation" select="'barf-if-relative'" />
+       <xsl:with-param name="continuation-param-value" select="$uri1" />
+    </xsl:call-template>
+</xsl:template>
+
+
+
+<!--
+If the $uri parameter is a relative URI, then
+this template calls a further template, indicated
+by the $continuation parameter.
+This is intended as following the functional programming paradigm of 
+programming with continuations.
+The $continuation-param-value parameter indicates a parameter to be
+passed to the $continuation template.
+
+Given limitations of XSLT, the $continuation parameter has to be one 
+that is explicitly supported by this template.
+These are:
+ 'barf'
+and
+ 'barf-if-relative'
+which call the templates with that local name in the xa namespace.
+
+The motivation for this style is to avoid copy/paste of the
+moderately complicated code that tests for relative URIs.
+
+Michael Kay briefly describes an alternative approach to continuation
+programming, in his book XSLT 2.0, Programmer's Reference,
+3rd Edition, p198.
+
+The basic idea of the continuation style, is that when calling a 
+function f you pass another function g as a first class object and 
+this is used to continue, after f has finished. There are some cases 
+in which f returns without calling g.
+--> 
+<xsl:template name="xa:if-relative-then-call-continuation">
+    <xsl:param name="uri" />
+
+    <xsl:param name="continuation" />
+    <xsl:param name="continuation-param-value" />
+    
+     <xsl:variable name="scheme"
+         select="substring-before($uri,':')"/>
+     <xsl:variable name="schemeRest"
+         select="translate(substring($scheme,2),
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-+.',
+               '')" />
+     <xsl:variable name="schemeFirst"
+          select="translate(substring($scheme,1,1),
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+               '')" />
+     <xsl:if test="not($schemeRest = '' and $schemeFirst = ''
+                        and string-length($scheme) &gt; 0 )">
+        <!-- $uri is relative, call continuation -->
+        <xsl:choose>
+           <xsl:when test="$continuation = 'barf'">
+
+                <xsl:call-template name="xa:barf" >
+                   <xsl:with-param name="uri" select="$continuation-param-value"/>
+                </xsl:call-template>
+           </xsl:when>
+           <xsl:when test="$continuation = 'barf-if-relative'" >
+                <xsl:call-template name="xa:barf-if-relative" >
+                   <xsl:with-param name="uri" select="$continuation-param-value"/>
+                </xsl:call-template>
+           </xsl:when>
+
+           <xsl:otherwise>
+                <xsl:message terminate = "yes" >
+<xsl:text>Logic error in http://www.w3.org/2003/g/xml-attributes
+Continuation error.</xsl:text>
+               </xsl:message>
+           </xsl:otherwise>
+        </xsl:choose>
+     </xsl:if>
+</xsl:template>
+     
+     
+</xsl:transform>
+
+<!-- debug code - for use within name="xmlbase"
+<xsl:text>base = '</xsl:text>
+<xsl:value-of select="$base"/>
+
+<xsl:text>'
+scheme = '</xsl:text>
+<xsl:value-of select="$scheme"/>
+
+<xsl:text>'
+schemeRest = '</xsl:text>
+<xsl:value-of select="$schemeRest"/>
+
+<xsl:text>'
+schemeFirst = '</xsl:text>
+<xsl:value-of select="$schemeFirst"/>
+<xsl:text>'
+</xsl:text>
+
+Other debug code:
+           <xsl:message><xsl:text>case f </xsl:text>
+                  <xsl:value-of select="$above-base"/>
+                  <xsl:value-of select="$ancestor-base"/>
+                   </xsl:message>
+end debug code -->

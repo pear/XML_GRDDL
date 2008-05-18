@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dataview="http://www.w3.org/2003/g/data-view#">
+  <rdf:Description rdf:about="">
+    <dataview:profileTransformation rdf:resource="profile-has-spaces-in-rel.sxsl?only"/>
+    <dataview:profileTransformation rdf:resource="profile-has-spaces-in-rel.sxsl?first"/>
+    <dataview:profileTransformation rdf:resource="profile-has-spaces-in-rel.sxsl?last"/>
+    <dataview:profileTransformation rdf:resource="profile-has-spaces-in-rel.sxsl?middle"/>
+    <dataview:profileTransformation rdf:resource="profile-has-spaces-in-rel.sxsl?duplicate"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="">
+    <rdf:value>profileTransformation seen in rel attribute as the last value.</rdf:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="">
+    <rdf:value>profileTransformation seen in rel attribute as the middle value.</rdf:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="">
+    <rdf:value>profileTransformation seen in rel attribute as the duplicate value.</rdf:value>
+  </rdf:Description>
+</rdf:RDF>

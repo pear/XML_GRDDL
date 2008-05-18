@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+  xmlns:t='http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#'
+  xmlns:g='http://www.w3.org/2001/sw/grddl-wg/td/grddl-test-vocabulary#'
+  xmlns:dc='http://purl.org/dc/elements/1.1/'
+>
+
+  <g:NetworkedTest rdf:about="http://www.w3.org/2001/sw/grddl-wg/td/grddl-tests#xmlbase1">
+    <t:approval rdf:resource="http://lists.w3.org/Archives/Public/public-grddl-wg/2007Apr/0248.html"/>
+    <t:outputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xmlWithBase-output.rdf"/>
+    <rdf:type rdf:resource="http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#Test"/>
+    <dc:title>An xml document with an
+        xml:base attribute</dc:title>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_GRDDL_transformation"/>
+
+    <t:inputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/base/xmlWithBase.xml"/>
+  </g:NetworkedTest>
+
+  <g:NetworkedTest rdf:about="http://www.w3.org/2001/sw/grddl-wg/td/grddl-tests#xmlbase4">
+    <t:approval rdf:resource="http://lists.w3.org/Archives/Public/public-grddl-wg/2007Apr/0248.html"/>
+    <t:outputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xmlWithoutBase-output.rdf"/>
+    <rdf:type rdf:resource="http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#Test"/>
+    <dc:title>A similar redirected xml
+        document without an xml:base attribute</dc:title>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_GRDDL_transformation"/>
+
+    <t:inputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xmlWithoutBase.xml"/>
+  </g:NetworkedTest>
+
+  <g:NetworkedTest rdf:about="http://www.w3.org/2001/sw/grddl-wg/td/grddl-tests#xmlbase3">
+    <t:approval rdf:resource="http://lists.w3.org/Archives/Public/public-grddl-wg/2007Apr/0248.html"/>
+    <t:outputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xmlWithBase-output.rdf"/>
+    <rdf:type rdf:resource="http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#Test"/>
+    <dc:title>A redirected xml document
+        with an xml:base attribute</dc:title>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_GRDDL_transformation"/>
+
+    <t:inputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xmlWithBase"/>
+  </g:NetworkedTest>
+
+  <g:NetworkedTest rdf:about="http://www.w3.org/2001/sw/grddl-wg/td/grddl-tests#xmlbase2">
+    <t:approval rdf:resource="http://lists.w3.org/Archives/Public/public-grddl-wg/2007Apr/0248.html"/>
+    <t:outputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xmlWithoutBase-output.rdf"/>
+    <rdf:type rdf:resource="http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#Test"/>
+    <dc:title>A similar xml document
+        without an xml:base attribute</dc:title>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_GRDDL_transformation"/>
+    <t:inputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/base/xmlWithoutBase.xml"/>
+
+  </g:NetworkedTest>
+
+  <g:NetworkedTest rdf:about="http://www.w3.org/2001/sw/grddl-wg/td/grddl-tests#grddlProfileBase3">
+    <t:approval rdf:resource="http://www.w3.org/2007/04/25-grddl-wg-minutes.html#item08"/>
+    <t:outputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xhtmlProfileBase1-output.rdf"/>
+    <rdf:type rdf:resource="http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#Test"/>
+    <dc:title>XHTML with an XHTML
+      profile using a base element</dc:title>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_tlrel"/>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_profiletrans"/>
+
+    <t:inputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xhtmlProfileBase1"/>
+  </g:NetworkedTest>
+
+  <g:NetworkedTest rdf:about="http://www.w3.org/2001/sw/grddl-wg/td/grddl-tests#inline-rdf6">
+    <t:approval rdf:resource="http://www.w3.org/2007/06/27-grddl-wg-minutes.html#item02"/>
+    <t:outputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/embedded-rdf6-output.rdf"/>
+    <rdf:type rdf:resource="http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#Test"/>
+    <dc:title>Embedded RDF using two
+      nested absolute xml:base</dc:title>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_GRDDL_transformation"/>
+    <t:inputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/inline-rdf6.xml"/>
+
+  </g:NetworkedTest>
+
+  <g:NetworkedTest rdf:about="http://www.w3.org/2001/sw/grddl-wg/td/grddl-tests#htmlbase4">
+    <t:approval rdf:resource="http://www.w3.org/2007/04/25-grddl-wg-minutes.html#item08"/>
+    <t:outputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xhtmlWithoutBaseElement-output.rdf"/>
+    <rdf:type rdf:resource="http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#Test"/>
+    <dc:title>A similar redirected html
+        document without a base element</dc:title>
+    <g:exercisesRule rdf:resource="http://www.w3.org/TR/grddl/#rule_tlrel"/>
+    <t:inputDocument rdf:resource="http://www.w3.org/2001/sw/grddl-wg/td/xhtmlWithoutBaseElement"/>
+  </g:NetworkedTest>
+
+
+</rdf:RDF>
