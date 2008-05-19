@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>XML_GRDDL</name>
- <uri>http://code.google.com/p/xmlgrddl/</uri>
+ <channel>pear.php.net</channel>
  <summary>A PHP library for dealing with GRDDL.</summary>
  <description>Features
 
@@ -15,7 +15,7 @@
   <active>yes</active>
  </lead>
  <date>2008-05-19</date>
- <time>14:23:48</time>
+ <time>14:31:43</time>
  <version>
   <release>0.1.0</release>
   <api>0.1.0</api>
