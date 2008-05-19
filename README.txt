@@ -14,6 +14,6 @@ Patches:
                 2) Extract to somewhere, like ~/grddl-tests/ or c:\grddl-tests\
                 2) Make sure you've got Python
                 3) Run (in your grddl-tests dir!)
-                        `python testft.py -r '/usr/bin/php ~/xml_grddl/scripts/process-grddl.php' --debug grddl-tests.rdf`
+                        `python testft.py --run "/usr/bin/php ~/xml_grddl/scripts/process-grddl.php" --debug grddl-tests.rdf`
                     or
-                        `python testft.py -r 'c:/php/php.exe c:/xml_grddl/scripts/process-grddl.php' --debug grddl-tests.rdf`
+                        `python testft.py --run "c:/php/php.exe c:/xml_grddl/scripts/process-grddl.php" --debug grddl-tests.rdf`

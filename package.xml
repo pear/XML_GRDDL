@@ -14,18 +14,18 @@
   <email>daniel.oconnor@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2008-05-03</date>
- <time>11:25:34</time>
+ <date>2008-05-19</date>
+ <time>14:23:48</time>
  <version>
-  <release>0.0.5</release>
-  <api>0.0.4</api>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
  </version>
  <stability>
   <release>alpha</release>
   <api>alpha</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
- <notes>Added one more example for php conferences, changed requirements to be 5.2.6</notes>
+ <notes>Initial package release for PEAR</notes>
  <contents>
   <dir baseinstalldir="PEAR" name="/">
    <file baseinstalldir="PEAR" md5sum="c10c403cd55b402845bc6d39efc83f4e" name="data/grddl-library/glean-profile" role="data" />
@@ -33,26 +33,30 @@
    <file baseinstalldir="PEAR" md5sum="5e49e9c1d163822939c36688ef922b82" name="data/grddl-library/grokPEAR" role="data" />
    <file baseinstalldir="PEAR" md5sum="a0357d0df76705258b7a29ff42e5727f" name="data/grddl-library/inline-rdf" role="data" />
    <file baseinstalldir="PEAR" md5sum="5163a11c0b5e88fe2d39054547a3cf9c" name="data/grddl-library/xml-attributes" role="data" />
-   <file baseinstalldir="PEAR" md5sum="5cd765056d4bb226d9827a738e94b8f6" name="docs/an-hcard-profile.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="c89fb74ae4c59febaf679866ab40ee77" name="docs/an-hcard-profile.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="6d498ea49b1c0925fc91f7df61435d34" name="docs/atomttl1.php" role="doc" />
    <file baseinstalldir="PEAR" md5sum="2cdcd705dd5c0ae920880cc18e53c8ed" name="docs/danc-hcal.php" role="doc" />
-   <file baseinstalldir="PEAR" md5sum="a92f8768ed7d72a3a46b6b62f6f88873" name="docs/discover-grddl.php" role="doc" />
-   <file baseinstalldir="PEAR" md5sum="09c3d6c559c82422c5f793836af5765d" name="docs/flickr-linkedin.php" role="doc" />
-   <file baseinstalldir="PEAR" md5sum="279389998abf553838c220389711fe54" name="docs/namespace-documents1.php" role="doc" />
-   <file baseinstalldir="PEAR" md5sum="1ada72da39cc8391d7e93ce7ae21b457" name="docs/namespace-documents2.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="2c61f1b7b0439b63d06b000d99f2a2af" name="docs/digg-rdfa.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="ff34a7eed547d08bea1051eea8f21fb1" name="docs/discover-grddl.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="0e41b04ccc8b99c489a567b84c02596d" name="docs/flickr-linkedin.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="5e03ceea268ecd27a6f0ca72c6ea5c8e" name="docs/grddlProfileBase1.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="771ece1b42b030c4faceb165de1bf80b" name="docs/htmlbase1.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="4f421662d1c346a018f516ff78bf6209" name="docs/namespace-documents1.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="bf9f77c8df82c1f01885e1b5465cb2da" name="docs/namespace-documents2.php" role="doc" />
    <file baseinstalldir="PEAR" md5sum="06d9389151518592000231980761630e" name="docs/pear-package.php" role="doc" />
-   <file baseinstalldir="PEAR" md5sum="fb071d4ec6ece53cc8f9e913fee922e0" name="docs/php-conferences.php" role="doc" />
-   <file baseinstalldir="PEAR" md5sum="dc0e035dc42fc7c5643ce9d9ae178cdd" name="docs/two-transforms.php" role="doc" />
-   <file baseinstalldir="PEAR" md5sum="5ea1743964432f346bfde10f6b0f2935" name="docs/xhtmlWithGrddlEnabledProfile.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="2c93c6e7706aff9958c1cc553b5cab69" name="docs/php-conferences.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="ceeac6e6a9b3d3f86ab9a5559e1c03f3" name="docs/two-transforms.php" role="doc" />
+   <file baseinstalldir="PEAR" md5sum="5a56892dcf33f858efbafc74c900868b" name="docs/xhtmlWithGrddlEnabledProfile.php" role="doc" />
    <file baseinstalldir="" md5sum="9a67031244a19a5f0d1a544eba8122b8" name="scripts/debug-grddl.php" role="script" />
    <file baseinstalldir="" md5sum="91380b5b2c6594562015fd4edbd6f76e" name="scripts/grddl-base.rdf" role="script" />
    <file baseinstalldir="" md5sum="1afcd0de42a3d469aa1b56862f2a1351" name="scripts/grddl-tests-normative.rdf" role="script" />
    <file baseinstalldir="" md5sum="7656a0fbf8bb26b3759cdbc965425a5c" name="scripts/grddl-tests.rdf" role="script" />
-   <file baseinstalldir="" md5sum="c99b27b5420dbe21778a02e80cf0e859" name="scripts/process-grddl.php" role="script" />
+   <file baseinstalldir="" md5sum="d73a64e24dcefa3c6f2e835d203324d0" name="scripts/process-grddl.php" role="script" />
    <file baseinstalldir="" md5sum="16d637b6732088a63b17bdb066963783" name="scripts/testft.py" role="script" />
-   <file baseinstalldir="PEAR" md5sum="7752a8017dc3602ffad7def3de8886a0" name="tests/44225.php" role="test" />
-   <file baseinstalldir="PEAR" md5sum="06a87321562914fa6225df0217d3b86a" name="tests/ambiguous.php" role="test" />
-   <file baseinstalldir="PEAR" md5sum="85b0e3601d55346189ed16987b258464" name="tests/example.php" role="test" />
-   <file baseinstalldir="PEAR" md5sum="9ea62e2be8a7b32c25cc0dab098c51b8" name="tests/library.php" role="test" />
+   <file baseinstalldir="PEAR" md5sum="aa32a07b6e4a15415f09e8cc88455943" name="tests/44225.php" role="test" />
+   <file baseinstalldir="PEAR" md5sum="664295fba501528a0d773ff154d204bb" name="tests/ambiguous.php" role="test" />
+   <file baseinstalldir="PEAR" md5sum="53aa491863c9628c5ab0d61ccbac1cfb" name="tests/example.php" role="test" />
+   <file baseinstalldir="PEAR" md5sum="0749352c4f938257bcec7ecf53a3d6d7" name="tests/library.php" role="test" />
    <file baseinstalldir="PEAR" md5sum="bbedcc42da3f18cf42969baa3d24dafe" name="tests/local.php" role="test" />
    <file baseinstalldir="PEAR" md5sum="594113e948cc056353a1233e052d2843" name="tests/namespaces.php" role="test" />
    <file baseinstalldir="PEAR" md5sum="fda633aaec7493282a8ef55c9548a59c" name="tests/data/baseURI.rdf" role="test" />
@@ -105,9 +109,11 @@
    <file baseinstalldir="PEAR" md5sum="48f68c072cd34378d4731e18a5e59bc7" name="tests/data/xmlWithGrddlAttribute-output.rdf" role="test" />
    <file baseinstalldir="PEAR" md5sum="7d14574e41b2a75d828e4324860ca3d2" name="tests/data/xmlWithGrddlAttributeAndNonXMLNamespaceDocument-output.rdf" role="test" />
    <file baseinstalldir="PEAR" md5sum="322c7c71ff002cf854bcd3a104598bdb" name="tests/data/xmlWithoutBase-output.rdf" role="test" />
-   <file baseinstalldir="" md5sum="94d1f00347eed7d88e55b477fa175f88" name="XML/GRDDL.php" role="php" />
-   <file baseinstalldir="" md5sum="ba804e92e4ddaed1d4a3ccd41d9606e1" name="XML/GRDDL/Driver.php" role="php" />
-   <file baseinstalldir="" md5sum="6d47a2f87eb2324b1e380a5d578e964c" name="XML/GRDDL/Driver/Xsl.php" role="php" />
+   <file baseinstalldir="" md5sum="72b4b5d54f73bc8d4f7b457a838afbee" name="XML/GRDDL.php" role="php" />
+   <file baseinstalldir="" md5sum="65fa8f56b42598b4bde4008694bda26b" name="XML/GRDDL/Driver.php" role="php" />
+   <file baseinstalldir="PEAR" md5sum="0c69a110b2110ce99b08e737c443acc9" name="XML/GRDDL/Exception.php" role="php" />
+   <file baseinstalldir="" md5sum="47e6dc7a08a0b5480acc673e64582ec1" name="XML/GRDDL/Driver/Xsl.php" role="php" />
+   <file baseinstalldir="PEAR" md5sum="05842a5991936385e09bd6fdd845b9dd" name="README.txt" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -229,6 +235,19 @@ Cleaned up options / api</notes>
    <date>2008-05-03</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>Added one more example for php conferences, changed requirements to be 5.2.6</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2008-05-19</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>Initial package release for PEAR</notes>
   </release>
  </changelog>
 </package>

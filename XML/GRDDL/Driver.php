@@ -233,6 +233,8 @@ abstract class XML_GRDDL_Driver
                                                 $xpath, $attributeName,
                                                 $namespace = null)
     {
+        $this->logger->log("Discovering transformations (" . $xpath . "), @" . $attributeName . " in " . $namespace);
+
         $nodes = $sxe->xpath($xpath);
 
         $transformationUrls = array();
@@ -240,6 +242,8 @@ abstract class XML_GRDDL_Driver
             $attributes = $node->attributes($namespace);
             $value      = (string)$attributes[$attributeName];
             $urls       = explode(" ", $value);
+
+            $this->logger->log("Found @" . $attributeName . "=" . $value);
 
             foreach ($urls as $n => $url) {
                 if (!$this->isURI($url)) {
@@ -399,8 +403,10 @@ abstract class XML_GRDDL_Driver
      */
     protected function determineBaseURI(SimpleXMLElement $sxe, $originalUrl)
     {
-
+        $this->logger->log("Seeking base URI");
         $bases = $sxe->xpath('//xhtml:head/xhtml:base[@href]');
+
+        $this->logger->log("Found xhtml:base " . print_r($bases, true));
 
         if (!empty($bases)) {
             list($base) = $bases;
@@ -408,6 +414,7 @@ abstract class XML_GRDDL_Driver
         }
 
         $attributes = $sxe->attributes(XML_GRDDL::XML_NS);
+        $this->logger->log("Found xml:base " . print_r($attributes['base'], true));
         if (!empty($attributes['base'])) {
             return dirname($attributes['base']) . '/';
         }
