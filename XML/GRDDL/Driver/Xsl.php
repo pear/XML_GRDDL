@@ -106,7 +106,7 @@ class XML_GRDDL_Driver_Xsl extends XML_GRDDL_Driver
 
         $paths = array();
 
-        $paths[] = '@DATADIR@/@package_name@/data/grddl-library/';
+        $paths[] = '@data_dir@/@package_name@/data/grddl-library/';
         $paths[] = dirname(__FILE__) . '/../../../data/grddl-library/';
 
         foreach ($paths as $path) {
