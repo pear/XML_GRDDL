@@ -68,7 +68,7 @@ $stylesheets = $grddl->inspect($modified_data, $url);
 
 $rdfXml = array();
 foreach ($stylesheets as $stylesheet) {
-	$rdfXml[] = $grddl->transform($stylesheet, $modified_data);
+    $rdfXml[] = $grddl->transform($stylesheet, $modified_data);
 }
 
 $result = array_reduce($rdfXml, array($grddl, 'merge'));
@@ -81,5 +81,5 @@ $nodes = $sxe->xpath('//ical:Vevent');
 
 print "Events:\n";
 foreach ($nodes as $node) {
-	print $node->summary . ", (" . $node->dtstart . ")\n";
+    print $node->summary . ", (" . $node->dtstart . ")\n";
 }
