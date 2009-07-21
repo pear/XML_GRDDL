@@ -549,7 +549,7 @@ abstract class XML_GRDDL_Driver
         }
 
         if ($this->isURI($path)) {
-            $req = &new HTTP_Request($path);
+            $req = new HTTP_Request($path);
             $req->setMethod(HTTP_REQUEST_METHOD_GET);
             $req->addHeader("Accept", 'text/xml, application/xml, application/rdf+xml; q=0.9, */*; text/html q=0.1');
             $req->sendRequest();
