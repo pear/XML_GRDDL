@@ -45,7 +45,7 @@
  * @link      http://code.google.com/p/xmlgrddl/
  */
 
-require_once 'HTTP/Request.php';
+require_once 'HTTP/Request2.php';
 require_once 'Net/URL.php';
 require_once 'Log.php';
 require_once 'Validate.php';
@@ -549,16 +549,15 @@ abstract class XML_GRDDL_Driver
         }
 
         if ($this->isURI($path)) {
-            $req = new HTTP_Request($path);
-            $req->setMethod(HTTP_REQUEST_METHOD_GET);
-            $req->addHeader("Accept", 'text/xml, application/xml, application/rdf+xml; q=0.9, */*; text/html q=0.1');
-            $req->sendRequest();
+            $req = new HTTP_Request2($path);
+            $req->setHeader("Accept", 'text/xml, application/xml, application/rdf+xml; q=0.9, */*; text/html q=0.1');
+            $result = $req->send();
 
             //HTTP 200 OK
-            if ($req->getResponseCode() == 200) {
+            if ($result->getStatus() == 200) {
                 $this->urlCache[$path] = array();
                 $this->urlCache[$path]['requests'] = 1;
-                return $this->urlCache[$path]['data'] = $this->prettify($req->getResponseBody());
+                return $this->urlCache[$path]['data'] = $this->prettify($result->getBody());
             }
 
 
@@ -566,27 +565,27 @@ abstract class XML_GRDDL_Driver
             //  but Split Out for easy debugging
             // @todo    Does HTTP_Client fix this?
             //HTTP 301 - UH...
-            if ($req->getResponseCode() == 301) {
+            if ($result->getStatus() == 301) {
                 //For now, return response body, otherwise,
                 // consider following redirect?
                 $this->urlCache[$path] = array();
                 $this->urlCache[$path]['requests'] = 1;
-                return $this->urlCache[$path]['data'] = $this->prettify($req->getResponseBody());
+                return $this->urlCache[$path]['data'] = $this->prettify($result->getBody());
             }
 
             $redirections = array(302, 303, 307);
-            if (in_array($req->getResponseCode(), $redirections)) {
+            if (in_array($result->getStatus(), $redirections)) {
                 //Obey the Location:
                 // @todo ... but consider race conditions
-                $headers = $req->getResponseHeader();
-                $this->logger->log("The webserver says " . $path . " actually lives at " . $headers['location']);
-                return $this->fetch($headers['location']);
+                $headers = $result->getHeader('location');
+                $this->logger->log("The webserver says " . $path . " actually lives at " . $headers);
+                return $this->fetch($headers);
             }
 
 
             //w3c.org website hacky workarounds
             //ewwwww
-            if ($req->getResponseCode() == 300) {
+            if ($result->getStatus() == 300) {
                 //further ewww
 
                 $newPath = $this->findRedirect($path);
@@ -597,9 +596,10 @@ abstract class XML_GRDDL_Driver
                 return $this->fetch($newPath);
             }
 
-
-            throw new XML_GRDDL_Exception('HTTP ' . $req->getResponseCode()
-                                    . ' while retrieving ' . $path);
+print $result->getBody();
+die();
+            throw new XML_GRDDL_Exception('HTTP ' . $result->getStatus()
+                                    . ' while retrieving ' . $path . "\n");
         }
 
         if (file_exists($path) && is_file($path)) {
