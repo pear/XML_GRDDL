@@ -82,7 +82,7 @@ foreach ($tests as $test) {
         $other_options = isset($test['options']) ? $test['options'] : array();
         $test_options  = array_merge($options, $other_options);
 
-        $grddl = XML_GRDDL::factory('xsl', $test_options);
+        $grddl = XML_GRDDL::factory('Xsl', $test_options);
 
         $in = $grddl->fetch($test['in']);
 
