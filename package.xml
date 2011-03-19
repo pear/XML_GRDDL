@@ -130,12 +130,12 @@ Bug #16460 	Assign by reference:
     <min>1.4.0</min>
    </pearinstaller>
    <package>
-    <name>HTTP_Request</name>
+    <name>HTTP_Request2</name>
     <channel>pear.php.net</channel>
     <min>1.4.2</min>
    </package>
    <package>
-    <name>Net_URL</name>
+    <name>Net_URL2</name>
     <channel>pear.php.net</channel>
    </package>
    <package>

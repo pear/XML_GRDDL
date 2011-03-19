@@ -46,7 +46,7 @@
  */
 
 require_once 'HTTP/Request2.php';
-require_once 'Net/URL.php';
+require_once 'Net/URL2.php';
 require_once 'Log.php';
 require_once 'Validate.php';
 
@@ -128,7 +128,7 @@ abstract class XML_GRDDL_Driver
                           $basePath . 'base/xmlWithBase');
 
         foreach ($rdfDocs as $path) {
-            $url = new Net_URL($path);
+            $url = new Net_URL2($path);
 
             $url->path .= '.rdf';
 
@@ -136,7 +136,7 @@ abstract class XML_GRDDL_Driver
         }
 
         foreach ($xmlDocs as $path) {
-            $url = new Net_URL($path);
+            $url = new Net_URL2($path);
 
             $url->path .= '.xml';
 
