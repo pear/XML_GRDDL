@@ -1,11 +1,5 @@
 XML_GRDDL
 
-SVN (primary home):
-http://code.google.com/p/xmlgrddl/source/browse/trunk/
-
-PEAR CVS:
-Only stable releases should end up sync'd with pear CVS.
-
 Patches:
  - Grab a copy of the svn trunk to try out your patch
  - You want to run the grddl tests to ensure there's no regression
