@@ -44,7 +44,8 @@
  */
 
 require_once 'XML/GRDDL.php';
-require_once 'PHPUnit/Framework/Assert.php';
+require_once 'XML/GRDDL/Driver/Xsl.php';
+require_once 'PHPUnit/Framework.php';
 require_once 'Log.php';
 
 
@@ -82,7 +83,7 @@ foreach ($tests as $test) {
         $other_options = isset($test['options']) ? $test['options'] : array();
         $test_options  = array_merge($options, $other_options);
 
-        $grddl = XML_GRDDL::factory('Xsl', $test_options);
+        $grddl = new XML_GRDDL_Driver_Xsl($test_options);
 
         $in = $grddl->fetch($test['in']);
 
