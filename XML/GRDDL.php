@@ -83,6 +83,8 @@ class XML_GRDDL
             $options = self::getDefaultOptions();
         }
 
+        $driver = ucwords(strtolower($driver));
+
         $class = 'XML_GRDDL_Driver_' . $driver;
 
         $path = 'XML/GRDDL/Driver/' . $driver . '.php';
