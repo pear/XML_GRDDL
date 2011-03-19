@@ -14,11 +14,11 @@
   <email>daniel.oconnor@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2010-10-25</date>
- <time>19:33:43</time>
+ <date>2011-03-19</date>
+ <time>13:45:51</time>
  <version>
-  <release>0.1.2</release>
-  <api>0.1.0</api>
+  <release>0.2.0</release>
+  <api>0.2.0</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -26,7 +26,12 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
  <notes>
-Bug #16460 	Assign by reference:
+Updated project documentation to reflect living in PEAR
+Request #16457 Please update to HTTP_Request2	doconnor
+Request #16458 Please update to Net_URL2	doconnor
+Bug #16459 Doc bug: xsl vs. Xsl
+Removed old examples (digg no longer renders RDFa, added a bestbuy/good relations example)
+Updated tests to run with PHP 5.3.3 happily, current PHPUnit
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -37,8 +42,8 @@ Bug #16460 	Assign by reference:
    <file baseinstalldir="" md5sum="d75363f0f0bf454bef7916ee183bcb93" name="data/grddl-library/xml-attributes" role="data" />
    <file baseinstalldir="" md5sum="abf3d2fd93c0793d49bf1db0607919f7" name="docs/an-hcard-profile.php" role="doc" />
    <file baseinstalldir="" md5sum="17e59f5dcbf1c59bda8ff80f6be70d5a" name="docs/atomttl1.php" role="doc" />
+   <file baseinstalldir="/" md5sum="505d6509f7bf3daeb1c529ccc7b69e11" name="docs/bestbuy-rdfa.php" role="doc" />
    <file baseinstalldir="" md5sum="34c8227f05bea1470366b6b85cc25aba" name="docs/danc-hcal.php" role="doc" />
-   <file baseinstalldir="" md5sum="44c7ab440ff6a0adb664cee5edfdc06b" name="docs/digg-rdfa.php" role="doc" />
    <file baseinstalldir="" md5sum="51d42c52cc0bd4c06f78645a070ace83" name="docs/discover-grddl.php" role="doc" />
    <file baseinstalldir="" md5sum="2668aa4d2fbfa97409959f69be613fbc" name="docs/flickr-linkedin.php" role="doc" />
    <file baseinstalldir="" md5sum="0593ba587d67c64637a3b69ae5814111" name="docs/grddl-base.rdf" role="doc" />
@@ -57,7 +62,7 @@ Bug #16460 	Assign by reference:
    <file baseinstalldir="" md5sum="2d66abb749887afa3dec458b533399a1" name="docs/scripts/testft.py" role="doc" />
    <file baseinstalldir="" md5sum="386112dc331971a1801706db7c8d24eb" name="tests/44225.php" role="test" />
    <file baseinstalldir="" md5sum="664295fba501528a0d773ff154d204bb" name="tests/ambiguous.php" role="test" />
-   <file baseinstalldir="" md5sum="439e0eb35c9c37a56ae6edea0aa9a47c" name="tests/example.php" role="test" />
+   <file baseinstalldir="" md5sum="33621228fd638afc2c6cd25ddc17d8dc" name="tests/example.php" role="test" />
    <file baseinstalldir="" md5sum="4c879528d51882e5de172fb33301df90" name="tests/library.php" role="test" />
    <file baseinstalldir="" md5sum="5515c7e6595b68867d54aaa0c58d397f" name="tests/local.php" role="test" />
    <file baseinstalldir="" md5sum="767b18e393cfb28e5fa59f0bca3158a6" name="tests/namespaces.php" role="test" />
@@ -111,14 +116,14 @@ Bug #16460 	Assign by reference:
    <file baseinstalldir="" md5sum="48f68c072cd34378d4731e18a5e59bc7" name="tests/data/xmlWithGrddlAttribute-output.rdf" role="test" />
    <file baseinstalldir="" md5sum="7d14574e41b2a75d828e4324860ca3d2" name="tests/data/xmlWithGrddlAttributeAndNonXMLNamespaceDocument-output.rdf" role="test" />
    <file baseinstalldir="" md5sum="322c7c71ff002cf854bcd3a104598bdb" name="tests/data/xmlWithoutBase-output.rdf" role="test" />
-   <file baseinstalldir="" md5sum="5330dfe03f1a70535a2ce48def8a4256" name="XML/GRDDL.php" role="php" />
-   <file baseinstalldir="" md5sum="3412694c8218d8bbfc4998fef026dd2b" name="XML/GRDDL/Driver.php" role="php" />
+   <file baseinstalldir="" md5sum="9cc4f7a7d73d533ebee95639c05f894c" name="XML/GRDDL.php" role="php" />
+   <file baseinstalldir="" md5sum="de3691309c35082dbde11346020045c1" name="XML/GRDDL/Driver.php" role="php" />
    <file baseinstalldir="" md5sum="9ea42f04cc2281412ac6006f178e25aa" name="XML/GRDDL/Exception.php" role="php" />
    <file baseinstalldir="" md5sum="e092ab947d324864efc9f87deda4a5af" name="XML/GRDDL/Driver/Xsl.php" role="php">
     <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
     <tasks:replace from="@package_name@" to="name" type="package-info" />
    </file>
-   <file baseinstalldir="" md5sum="ba9f0dd99b85d773f241ee9318fc09ce" name="README.txt" role="doc" />
+   <file baseinstalldir="" md5sum="256e30ba90a5620c8bee47192755d551" name="README.txt" role="doc" />
   </dir>
  </contents>
  <dependencies>
@@ -132,7 +137,6 @@ Bug #16460 	Assign by reference:
    <package>
     <name>HTTP_Request2</name>
     <channel>pear.php.net</channel>
-    <min>1.4.2</min>
    </package>
    <package>
     <name>Net_URL2</name>
@@ -287,6 +291,26 @@ Fixed replacement tasks
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
    <notes>
 Bug #16460 	Assign by reference:
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2011-03-19</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+Updated project documentation to reflect living in PEAR
+Request #16457 Please update to HTTP_Request2	doconnor
+Request #16458 Please update to Net_URL2	doconnor
+Bug #16459 Doc bug: xsl vs. Xsl
+Removed old examples (digg no longer renders RDFa, added a bestbuy/good relations example)
+Updated tests to run with PHP 5.3.3 happily, current PHPUnit
    </notes>
   </release>
  </changelog>
