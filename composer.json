@@ -1,0 +1,31 @@
+{
+    "authors": [
+        {
+            "email": "daniel.oconnor@gmail.com",
+            "name": "Daniel O'Connor",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "XML_GRDDL": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/XML_GRDDL",
+    "include-path": [
+        "./"
+    ],
+    "license": "BSD Style",
+    "name": "pear/xml_grddl",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=XML_GRDDL",
+        "source": "https://github.com/pear/XML_GRDDL"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
